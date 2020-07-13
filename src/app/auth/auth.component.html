@@ -1,0 +1,71 @@
+<mat-card>
+  <mat-card-title>{{libelle.authentification}}</mat-card-title>
+  <mat-card-subtitle>
+  </mat-card-subtitle>
+  <mat-card-header>
+    <button mat-button color="accent" aria-label="Example icon button with a home icon" (click)="permuteMode()">
+      <mat-icon>swap_horizontal_circle</mat-icon>
+      Basculer vers «{{estEnModeConnexion? libelle.enregistrement : libelle.connexion}}»
+    </button>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form">
+      <p *ngIf="!estEnModeConnexion">
+        <mat-form-field class="example-full-width">
+          <mat-label>{{libelle.courriel}} *</mat-label>
+          <input matInput [formControl]="validateurDeFormulaire.courriel" [placeholder]="libelle.courrielPlaceholder">
+          <mat-error
+            *ngIf="validateurDeFormulaire.courriel.hasError('email') && !validateurDeFormulaire.courriel.hasError('required')">
+            {{erreur.courrielInvalide}}
+          </mat-error>
+          <mat-error *ngIf="validateurDeFormulaire.courriel.hasError('required')">
+            {{erreur.courrielObligatoire}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{libelle.courriel}} *</mat-label>
+          <input matInput [formControl]="validateurDeFormulaire.courriel" [placeholder]="libelle.courrielPlaceholder">
+          <mat-error
+            *ngIf="validateurDeFormulaire.courriel.hasError('email') && !validateurDeFormulaire.courriel.hasError('required')">
+            {{erreur.courrielInvalide}}
+          </mat-error>
+          <mat-error *ngIf="validateurDeFormulaire.courriel.hasError('required')">
+            {{erreur.courrielObligatoire}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="example-full-width">
+          <mat-label>{{libelle.p455w0rd}} *</mat-label>
+          <input matInput [formControl]="validateurDeFormulaire.p455w0rd" [type]="masqueP455w0rd ? 'password' : 'text'"
+            [placeholder]="libelle.p455w0rdPlaceholder" [matTooltip]="libelle.p455w0rdTooltip"
+            matTooltipHideDelay="1000">
+          <button mat-icon-button matSuffix (click)="permuteAffichageP455w0rd()" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="masqueP455w0rd">
+            <mat-icon>{{masqueP455w0rd ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="validateurDeFormulaire.p455w0rd.hasError('pattern') && !validateurDeFormulaire.p455w0rd.hasError('required')">
+            {{erreur.p455w0rdInvalide}}
+          </mat-error>
+          <mat-error *ngIf="validateurDeFormulaire.p455w0rd.hasError('required')">
+            {{erreur.p455w0rdObligatoire}}
+          </mat-error>
+        </mat-form-field>
+      </p>
+      <button class="float-right" *ngIf="estEnModeConnexion" mat-fab color="primary"
+        aria-label="Example icon button with a home icon">
+        <mat-icon>login</mat-icon>
+      </button>
+      <button class="float-right" *ngIf="!estEnModeConnexion" mat-fab color="primary"
+        aria-label="Example icon button with a home icon">
+        <mat-icon>create</mat-icon>
+      </button>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+  </mat-card-actions>
+  <mat-card-footer></mat-card-footer>
+</mat-card>
