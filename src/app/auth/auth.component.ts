@@ -14,6 +14,8 @@ export class AuthComponent implements OnInit {
 
   libelle = {
     authentification: AuthResource.libelle.authentification,
+    nom: AuthResource.libelle.nom,
+    nomPlaceholder: AuthResource.libelle.nomPlaceholder,
     connexion: AuthResource.libelle.connexion,
     enregistrement: AuthResource.libelle.enregistrement,
     valider: SharedResource.libelle.bouton.valider,
@@ -29,9 +31,15 @@ export class AuthComponent implements OnInit {
     courrielInvalide: AuthResource.erreur.courrielInvalide,
     p455w0rdObligatoire: AuthResource.erreur.p455sw0rdObligatoire,
     p455w0rdInvalide: AuthResource.erreur.p455sw0rdInvalide,
+    nomObligatoire: AuthResource.erreur.nomObligatoire,
+    nomInvalide: AuthResource.erreur.nomInvalide,
   };
 
   validateurDeFormulaire = {
+    nom: new FormControl('', [
+      Validators.required,
+      Validators.pattern(AuthResource.NOM_REGEX),
+    ]),
     courriel: new FormControl('', [Validators.required, Validators.email]),
     p455w0rd: new FormControl('', [
       Validators.required,
