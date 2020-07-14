@@ -11,24 +11,10 @@
   </mat-card-header>
   <mat-card-content>
     <form class="example-form">
-      <p *ngIf="!estEnModeConnexion">
-        <mat-form-field class="example-full-width">
-          <mat-label>{{libelle.nom}} *</mat-label>
-          <input matInput [formControl]="validateurDeFormulaire.nom" [placeholder]="libelle.nomPlaceholder">
-          <mat-icon matSuffix>face &nbsp;</mat-icon>
-          <mat-error
-            *ngIf="validateurDeFormulaire.nom.hasError('pattern') && !validateurDeFormulaire.nom.hasError('required')">
-            {{erreur.nomInvalide}}
-          </mat-error>
-          <mat-error *ngIf="validateurDeFormulaire.nom.hasError('required')">
-            {{erreur.nomObligatoire}}
-          </mat-error>
-        </mat-form-field>
-      </p>
       <p>
         <mat-form-field class="example-full-width">
           <mat-label>{{libelle.courriel}} *</mat-label>
-          <input matInput [formControl]="validateurDeFormulaire.courriel" [placeholder]="libelle.courrielPlaceholder">
+          <input matInput [formControl]="validateurDeFormulaire.courriel" [placeholder]="libelle.courrielPlaceholder" [(ngModel)]="utilisateur.email">
           <mat-icon matSuffix>email &nbsp;</mat-icon>
           <mat-error
             *ngIf="validateurDeFormulaire.courriel.hasError('email') && !validateurDeFormulaire.courriel.hasError('required')">
@@ -43,7 +29,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>{{libelle.p455w0rd}} *</mat-label>
           <input matInput [formControl]="validateurDeFormulaire.p455w0rd" [type]="masqueP455w0rd ? 'password' : 'text'"
-            [placeholder]="libelle.p455w0rdPlaceholder" [matTooltip]="libelle.p455w0rdTooltip"
+            [placeholder]="libelle.p455w0rdPlaceholder" [matTooltip]="libelle.p455w0rdTooltip" [(ngModel)]="utilisateur.password"
             matTooltipHideDelay="1000">
           <button mat-flat-button matSuffix (click)="permuteAffichageP455w0rd()" [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="masqueP455w0rd">
@@ -65,14 +51,14 @@
       matTooltip="Basculer vers «{{estEnModeConnexion? libelle.enregistrement : libelle.connexion}}»">
       <mat-icon>swap_horizontal_circle</mat-icon>
     </button>
-    <button class="float-right" *ngIf="estEnModeConnexion" mat-fab color="primary"
-      aria-label="Example icon button with a home icon">
-      <mat-icon>login</mat-icon>
-    </button>
-    <button class="float-right" *ngIf="!estEnModeConnexion" mat-fab color="primary"
-      aria-label="Example icon button with a home icon">
-      <mat-icon>create</mat-icon>
-    </button>
+    <span *ngIf="doitAfficherLeBoutonValider">
+      <button class="float-right" *ngIf="estEnModeConnexion" mat-fab color="primary">
+        <mat-icon>login</mat-icon>
+      </button>
+      <button class="float-right" *ngIf="!estEnModeConnexion" mat-fab color="primary">
+        <mat-icon>create</mat-icon>
+      </button>
+    </span>
   </mat-card-actions>
   <mat-card-footer></mat-card-footer>
 </mat-card>

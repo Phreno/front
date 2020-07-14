@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AuthResource } from './auth.resource';
 import { SharedResource } from '../shared/shared.resource';
 import { FormControl, Validators } from '@angular/forms';
+import { AuthModel } from './auth.model';
 
 @Component({
   selector: 'app-auth',
@@ -14,8 +15,6 @@ export class AuthComponent implements OnInit {
 
   libelle = {
     authentification: AuthResource.libelle.authentification,
-    nom: AuthResource.libelle.nom,
-    nomPlaceholder: AuthResource.libelle.nomPlaceholder,
     connexion: AuthResource.libelle.connexion,
     enregistrement: AuthResource.libelle.enregistrement,
     valider: SharedResource.libelle.bouton.valider,
@@ -31,21 +30,17 @@ export class AuthComponent implements OnInit {
     courrielInvalide: AuthResource.erreur.courrielInvalide,
     p455w0rdObligatoire: AuthResource.erreur.p455sw0rdObligatoire,
     p455w0rdInvalide: AuthResource.erreur.p455sw0rdInvalide,
-    nomObligatoire: AuthResource.erreur.nomObligatoire,
-    nomInvalide: AuthResource.erreur.nomInvalide,
   };
 
   validateurDeFormulaire = {
-    nom: new FormControl('', [
-      Validators.required,
-      Validators.pattern(AuthResource.NOM_REGEX),
-    ]),
     courriel: new FormControl('', [Validators.required, Validators.email]),
     p455w0rd: new FormControl('', [
       Validators.required,
       Validators.pattern(AuthResource.P455W0RD_REGEX),
     ]),
   };
+
+  utilisateur: Partial<AuthModel> = {};
 
   constructor() {}
 
@@ -59,11 +54,13 @@ export class AuthComponent implements OnInit {
     this.estEnModeConnexion = !this.estEnModeConnexion;
   }
 
-  afficheLeModeConnexion() {
-    this.estEnModeConnexion = AuthResource.MODE_CONNEXION;
-  }
+  valider() {}
 
-  afficheLeModeEnregistrement() {
-    this.estEnModeConnexion = AuthResource.MODE_ENREGISTREMENT;
+  get doitAfficherLeBoutonValider() {
+    let validateurs = Object.keys(this.validateurDeFormulaire);
+    return (
+      validateurs &&
+      validateurs.every((e) => !this.validateurDeFormulaire[e]!.errors)
+    );
   }
 }
