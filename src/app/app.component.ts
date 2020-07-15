@@ -1,7 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { $ } from 'protractor';
-import { DOCUMENT } from '@angular/common';
-
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,5 +12,6 @@ import { DOCUMENT } from '@angular/common';
 export class AppComponent implements OnInit {
   title = 'front';
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 }

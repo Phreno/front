@@ -1,7 +1,6 @@
 <mat-card>
-  <mat-card-title>
+  <mat-card-title wow fadeInDown data-wow-delay="1s">
     {{ estEnModeConnexion ? libelle.connexion : libelle.enregistrement }}
-
   </mat-card-title>
   <mat-card-subtitle>
   </mat-card-subtitle>
@@ -49,7 +48,6 @@
         </mat-form-field>
       </p>
     </form>
-
     <span *ngIf="statut.chargementEnCours">
       <mat-spinner style="margin:0 auto;" mode="indeterminate"></mat-spinner>
     </span>
@@ -69,7 +67,4 @@
     </button>
   </mat-card-actions>
   <mat-card-footer></mat-card-footer>
-
-
-
 </mat-card>
