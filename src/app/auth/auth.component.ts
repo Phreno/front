@@ -1,13 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AuthResource } from './auth.resource';
-import { SharedResource } from '../shared/shared.resource';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { IAuthValide } from '../shared/interface/auth-valide.interface';
+import { SharedResource } from '../shared/shared.resource';
 import { AuthModel } from './auth.model';
+import { AuthResource } from './auth.resource';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
+  providers: [AuthService],
 })
 export class AuthComponent implements OnInit {
   estEnModeConnexion = AuthResource.MODE_CONNEXION;
@@ -33,16 +43,34 @@ export class AuthComponent implements OnInit {
   };
 
   validateurDeFormulaire = {
-    courriel: new FormControl('', [Validators.required, Validators.email]),
-    p455w0rd: new FormControl('', [
-      Validators.required,
-      Validators.pattern(AuthResource.P455W0RD_REGEX),
-    ]),
+    courriel: new FormControl('', [Validators.required]),
+    p455w0rd: new FormControl('', [Validators.required]),
   };
+
+  statut = {
+    chargementEnCours: false,
+  };
+
+  constructor(
+    private _authService: AuthService,
+    private _snackBar: MatSnackBar,
+    private _router: Router
+  ) {}
 
   utilisateur: Partial<AuthModel> = {};
 
-  constructor() {}
+  get utilisateurValide() {
+    return this.doitAfficherLeBoutonValider && (this.utilisateur as AuthModel);
+  }
+
+  get doitAfficherLeBoutonValider() {
+    const validateurs = Object.keys(this.validateurDeFormulaire);
+    let estValide =
+      validateurs &&
+      validateurs.every((e) => !this.validateurDeFormulaire[e]!.errors);
+
+    return estValide;
+  }
 
   ngOnInit(): void {}
 
@@ -52,15 +80,56 @@ export class AuthComponent implements OnInit {
 
   permuteMode() {
     this.estEnModeConnexion = !this.estEnModeConnexion;
+
+    if (this.estEnModeConnexion) {
+      this.validateurDeFormulaire = {
+        courriel: new FormControl('', [Validators.required]),
+        p455w0rd: new FormControl('', [Validators.required]),
+      };
+    } else {
+      this.validateurDeFormulaire = {
+        courriel: new FormControl('', [Validators.required, Validators.email]),
+        p455w0rd: new FormControl('', [
+          Validators.required,
+          Validators.pattern(AuthResource.P455W0RD_REGEX),
+        ]),
+      };
+    }
+    this.validateurDeFormulaire.courriel.markAsUntouched();
+    this.validateurDeFormulaire.p455w0rd.markAsUntouched();
   }
 
-  valider() {}
+  valider() {
+    if (this.utilisateurValide) {
+      this.statut.chargementEnCours = true;
+      this.afficheSnackBar('Connexion en cours ...');
+      const authObservable: Observable<IAuthValide> = this.estEnModeConnexion
+        ? this._authService.connecteUtilisateur(this.utilisateurValide)
+        : this._authService.enregistreUtilisateur(this.utilisateurValide);
+      authObservable.subscribe(
+        (utilisateur) => {
+          console.log(utilisateur);
+          this.statut.chargementEnCours = false;
+          this.afficheSnackBar("Connecté")
+          this._router.navigate(['/']);
+        },
+        (error) => {
+          console.error(error);
+          this.statut.chargementEnCours = false;
+          this.afficheSnackBar(error.message);
+        }
+      );
+    } else {
+      this.validateurDeFormulaire.courriel.markAllAsTouched();
+      this.validateurDeFormulaire.p455w0rd.markAllAsTouched();
+    }
+  }
 
-  get doitAfficherLeBoutonValider() {
-    let validateurs = Object.keys(this.validateurDeFormulaire);
-    return (
-      validateurs &&
-      validateurs.every((e) => !this.validateurDeFormulaire[e]!.errors)
-    );
+  afficheSnackBar(message: string) {
+    this._snackBar.open(message, 'Fermer', {
+      duration: 2000,
+      horizontalPosition: 'start',
+      verticalPosition: 'bottom',
+    });
   }
 }

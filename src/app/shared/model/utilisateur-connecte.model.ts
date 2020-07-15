@@ -1,55 +1,19 @@
-/**
- * Interface de récupération d’un utilisateur
- * 
- * @see https://firebase.google.com/docs/reference/rest/auth#section-sign-in-email-password
- * @export
- * @class IUtilisateurConnecte
- */
-export class IUtilisateurConnecte {
- 
-  /**
-   * A Firebase Auth ID token for the authenticated user.
-   *
-   * @type {string}
-   * @memberof IUtilisateurConnecte
-   */
-  public idToken: string;
-  /**
-   * The email for the authenticated user.
-   *
-   * @type {string}
-   * @memberof IUtilisateurConnecte
-   */
-  public email: string;
-  /**
-   * A Firebase Auth refresh token for the authenticated user.
-   *
-   * @type {string}
-   * @memberof IUtilisateurConnecte
-   */
-  public refreshToken: string;
+export class UtilisateurConnecte {
+  constructor(
+    public email: string,
+    public ID: string,
+    private _token: string,
+    private _expirationDuToken: Date
+  ) {}
 
-  /**
-   * The number of seconds in which the ID token expires.
-   *
-   * @type {string}
-   * @memberof IUtilisateurConnecte
-   */
-  public expiresIn: string;
+  get token() {
+    return (
+      (!this._expirationDuToken || new Date() > this._expirationDuToken) &&
+      this._token
+    );
+  }
 
-  /**
-   * The uid of the authenticated user.
-   *
-   * @type {string}
-   * @memberof IUtilisateurConnecte
-   */
-  public localId: string;
-
-  /**
-   * Whether the email is for an existing account.
-   *
-   * @type {boolean}
-   * @memberof IUtilisateurConnecte
-   */
-  public registered: boolean;
+  get expirationDuToken() {
+    return this._expirationDuToken;
+  }
 }
