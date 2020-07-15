@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
-  providers: [AuthService],
+  //providers: [AuthService],
 })
 export class AuthComponent implements OnInit {
   estEnModeConnexion = AuthResource.MODE_CONNEXION;
@@ -50,14 +50,18 @@ export class AuthComponent implements OnInit {
   statut = {
     chargementEnCours: false,
   };
-
+  
+  utilisateur: Partial<AuthModel> = {
+    email: "losgoomy@gmail.com",
+    password: "bépoBÉPO1234"
+  };
+  
   constructor(
     private _authService: AuthService,
     private _snackBar: MatSnackBar,
     private _router: Router
   ) {}
 
-  utilisateur: Partial<AuthModel> = {};
 
   get utilisateurValide() {
     return this.doitAfficherLeBoutonValider && (this.utilisateur as AuthModel);
@@ -111,7 +115,7 @@ export class AuthComponent implements OnInit {
           console.log(utilisateur);
           this.statut.chargementEnCours = false;
           this.afficheSnackBar("Connecté")
-          this._router.navigate(['/']);
+          this._router.navigate(['profile']);
         },
         (error) => {
           console.error(error);

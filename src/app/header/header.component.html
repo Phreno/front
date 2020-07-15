@@ -1,0 +1,49 @@
+<header>
+
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar aqua-gradient">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <strong>MDB</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-7"
+        aria-controls="navbarSupportedContent-7" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
+
+        <ul class="navbar-nav mr-auto">
+          <li routerLinkActive="active" class="nav-item">
+            <a class="nav-link" routerLink="home">Accueil</a>
+          </li>
+          <li routerLinkActive="active" class="nav-item" *ngIf="estAuthentifie">
+            <a class="nav-link" routerLink="profile">
+              Profile
+            </a>
+          </li>
+        </ul>
+
+
+        <ul class="navbar-nav">
+          <li routerLinkActive="active" class="nav-item" *ngIf="!estAuthentifie">
+            <a class="nav-link" routerLink="auth">
+              <span class="material-icons">
+                account_circle
+              </span>
+            </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item" *ngIf="estAuthentifie">
+            <a class="nav-link">
+              <span class="material-icons">
+                cancel
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <app-animation [hidden]="!estAuthentifie"></app-animation>
+
+</header>

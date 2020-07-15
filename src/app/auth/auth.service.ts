@@ -14,7 +14,7 @@ export class AuthService {
   private readonly _URL_ENREGISTREMENT = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this._FIREBASE_API_KEY}`;
   constructor(private httpClient: HttpClient) {}
 
-  utilisateurConnecte = new Subject<UtilisateurConnecte>();
+  connexion = new Subject<UtilisateurConnecte>();
 
   enregistreUtilisateur(connexionPayload: AuthModel) {
     connexionPayload.returnSecureToken = true;
@@ -46,7 +46,7 @@ export class AuthService {
       authentification.idToken,
       expirationDate
     );
-    this.utilisateurConnecte.next(utilisateur);
+    this.connexion.next(utilisateur);
   }
 
   private gereLesErreurs(error: HttpErrorResponse) {
