@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { UtilisateurConnecte } from '../shared/model/utilisateur-connecte.model';
+import { AuthService } from '../main/auth/auth.service';
 
 @Component({
   selector: 'app-header',

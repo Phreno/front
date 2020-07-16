@@ -54,15 +54,15 @@
     </span>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-fab color="accent" class="float-left" (click)="permuteMode()"
+    <button mat-fab color="accent" class="float-left ml-5" (click)="permuteMode()"
       matTooltip="Basculer vers «{{estEnModeConnexion? libelle.enregistrement : libelle.connexion}}»">
       <mat-icon>swap_horizontal_circle</mat-icon>
     </button>
-    <button class="float-right" *ngIf="estEnModeConnexion && !statut.chargementEnCours" mat-fab color="primary"
+    <button class="float-right mr-5" *ngIf="estEnModeConnexion && !statut.chargementEnCours" mat-fab color="primary"
       (click)="valider()">
       <mat-icon>login</mat-icon>
     </button>
-    <button class="float-right" *ngIf="!estEnModeConnexion && doitAfficherLeBoutonValider && !statut.chargementEnCours"
+    <button class="float-right mr-5" *ngIf="!estEnModeConnexion && doitAfficherLeBoutonValider && !statut.chargementEnCours"
       mat-fab color="primary" (click)="valider()">
       <mat-icon>create</mat-icon>
     </button>

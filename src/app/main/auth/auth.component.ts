@@ -1,23 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { IAuthValide } from '../shared/interface/auth-valide.interface';
-import { SharedResource } from '../shared/shared.resource';
+
 import { AuthModel } from './auth.model';
 import { AuthResource } from './auth.resource';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
+import { SharedResource } from 'src/app/shared/shared.resource';
+import { IAuthValide } from 'src/app/shared/interface/auth-valide.interface';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
-  //providers: [AuthService],
 })
 export class AuthComponent implements OnInit {
   estEnModeConnexion = AuthResource.MODE_CONNEXION;
@@ -50,18 +46,17 @@ export class AuthComponent implements OnInit {
   statut = {
     chargementEnCours: false,
   };
-  
+
   utilisateur: Partial<AuthModel> = {
-    email: "losgoomy@gmail.com",
-    password: "bépoBÉPO1234"
+    email: 'losgoomy@gmail.com',
+    password: 'bépoBÉPO1234',
   };
-  
+
   constructor(
     private _authService: AuthService,
     private _snackBar: MatSnackBar,
     private _router: Router
   ) {}
-
 
   get utilisateurValide() {
     return this.doitAfficherLeBoutonValider && (this.utilisateur as AuthModel);
@@ -114,7 +109,7 @@ export class AuthComponent implements OnInit {
         (utilisateur) => {
           console.log(utilisateur);
           this.statut.chargementEnCours = false;
-          this.afficheSnackBar("Connecté")
+          this.afficheSnackBar('Connecté');
           this._router.navigate(['profile']);
         },
         (error) => {

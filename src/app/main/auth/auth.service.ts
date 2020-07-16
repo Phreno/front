@@ -1,10 +1,10 @@
 import { AuthModel } from './auth.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IAuthValide } from '../shared/interface/auth-valide.interface';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError, Subject } from 'rxjs';
-import { UtilisateurConnecte } from '../shared/model/utilisateur-connecte.model';
+import { UtilisateurConnecte } from 'src/app/shared/model/utilisateur-connecte.model';
+import { IAuthValide } from 'src/app/shared/interface/auth-valide.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
