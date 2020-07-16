@@ -1,6 +1,6 @@
 html,
 body {
-  height: 700px;
+  height: 100%;
 }
 
 @media (max-width: 740px) {

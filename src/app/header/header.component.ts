@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { UtilisateurConnecte } from '../shared/model/utilisateur-connecte.model';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,11 @@ import { Subscription } from 'rxjs';
   //providers: [AuthService],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  estAuthentifie = false;
+  utilisateurAuthentifie: UtilisateurConnecte;
+
+  get estAuthentifie() {
+    return !!this.utilisateurAuthentifie;
+  }
 
   private _souscriptionUtilisateur: Subscription;
 
@@ -18,8 +23,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._souscriptionUtilisateur = this._authService.connexion.subscribe(
-      (user) => {
-        this.estAuthentifie = !!user;
+      (utilisateur) => {
+        this.utilisateurAuthentifie = utilisateur;
       }
     );
   }

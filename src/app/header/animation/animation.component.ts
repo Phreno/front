@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { UtilisateurConnecte } from 'src/app/shared/model/utilisateur-connecte.model';
 
 @Component({
   selector: 'app-animation',
   templateUrl: './animation.component.html',
-  styleUrls: ['./animation.component.css']
+  styleUrls: ['./animation.component.css'],
 })
 export class AnimationComponent implements OnInit {
+  @Input()
+  entete: string;
 
-  constructor() { }
+  @Input()
+  texteMisEnValeur: string;
 
-  ngOnInit(): void {
-  }
+  @Input()
+  sousTitre: string;
+  constructor() {}
 
+  ngOnInit(): void {}
 }
