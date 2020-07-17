@@ -4,7 +4,7 @@ import { AuthService } from './main/auth/auth.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: [
-    './app.component.css',
+    './app.component.less',
     '../assets/css/bootstrap.min.css',
     '../assets/css/mdb.min.css',
   ],

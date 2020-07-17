@@ -6,9 +6,7 @@ import { AuthService } from '../main/auth/auth.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
-  encapsulation: ViewEncapsulation.None,
-  //providers: [AuthService],
+  styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   utilisateurAuthentifie: UtilisateurConnecte;

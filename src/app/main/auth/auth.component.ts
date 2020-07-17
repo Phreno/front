@@ -13,7 +13,7 @@ import { IAuthValide } from 'src/app/shared/interface/auth-valide.interface';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
+  styleUrls: ['./auth.component.less'],
 })
 export class AuthComponent implements OnInit {
   estEnModeConnexion = AuthResource.MODE_CONNEXION;
