@@ -4,7 +4,7 @@ import { VivusService } from 'src/app/shared/vivus/vivus.service';
 @Component({
   selector: 'app-animation',
   templateUrl: './animation.component.html',
-  styleUrls: ['./animation.component.less'],
+  styleUrls: ['./animation.component.scss'],
 })
 export class AnimationComponent implements OnInit {
   readonly animationID = 'animation';

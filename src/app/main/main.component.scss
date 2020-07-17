@@ -1,0 +1,22 @@
+main {
+  height:100%;
+  width: 66vw;
+}
+
+@media (max-width: 740px) {
+  main {
+    height: 100vh;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
+  main {
+    height: 100vh;
+  }
+}
+
+@media (min-width: 560px) and (max-width: 660px) {
+  main h5 {
+    display: none !important;
+  }
+}

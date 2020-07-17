@@ -1,13 +1,43 @@
 <mat-card>
-  <mat-card-title class="animated fadeIn" data-wow-delay="1s">
-    {{ estEnModeConnexion ? libelle.connexion : libelle.enregistrement }}
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                            Titre de la carte                            -->
+  <!-- ----------------------------------------------------------------------- -->
+  <mat-card-title data-wow-delay="1s">
+    <ng-container *ngIf="estEnModeConnexion; then libelleConnexion; else libelleEnregistrement"></ng-container>
+    <ng-template #libelleConnexion>
+      <h2>
+        {{libelle.connexion}}
+      </h2>
+    </ng-template>
+    <ng-template #libelleEnregistrement>
+      <h2>
+        {{libelle.enregistrement}}
+      </h2>
+    </ng-template>
   </mat-card-title>
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                         Sous titre de la carte                          -->
+  <!-- ----------------------------------------------------------------------- -->
   <mat-card-subtitle>
+    <h3>
+      Veuillez renseigner vos identifiants
+    </h3>
   </mat-card-subtitle>
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                           Entete de la carte                            -->
+  <!-- ----------------------------------------------------------------------- -->
   <mat-card-header>
+    <h4 *ngIf="estEnModeConnexion"><a>Mot de passe oublié ?</a></h4>
+    <h4 *ngIf="!estEnModeConnexion">Merci de votre confiance</h4>
   </mat-card-header>
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                                 Contenu                                 -->
+  <!-- ----------------------------------------------------------------------- -->
   <mat-card-content>
-    <form class="example-form" #authentification *ngIf="!statut.chargementEnCours">
+    <!-- ----------------------------------------------------------------------- -->
+    <!--                               Formulaire                                -->
+    <!-- ----------------------------------------------------------------------- -->
+    <form class="example-form" #authentification>
       <p>
         <mat-form-field class="example-full-width">
           <mat-label>{{libelle.courriel}}</mat-label>
@@ -48,24 +78,25 @@
         </mat-form-field>
       </p>
     </form>
-    <span *ngIf="statut.chargementEnCours">
-      <mat-spinner style="margin:0 auto;" mode="indeterminate"></mat-spinner>
-    </span>
   </mat-card-content>
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                          Boutons du formulaire                          -->
+  <!-- ----------------------------------------------------------------------- -->
   <mat-card-actions>
-    <button mat-fab color="accent" class="z-depth-5 float-left ml-3 animated fadeInDown" (click)="permuteMode()"
+    <!-- ----------------- Bascule connexion / enregistrement ------------------ -->
+    <button mat-fab color="accent" class="float-left ml-3" (click)="permuteMode()"
       matTooltip="Basculer vers «{{estEnModeConnexion? libelle.enregistrement : libelle.connexion}}»">
       <mat-icon>swap_horizontal_circle</mat-icon>
     </button>
-    <button class="z-depth-5 float-right mr-3 animated fadeInDown"
-      *ngIf="estEnModeConnexion && !statut.chargementEnCours" mat-fab color="primary" (click)="valider()">
-      <mat-icon>login</mat-icon>
+    <!-- ------------------------ Boutons de validation ------------------------ -->
+    <button class="float-right mr-3" *ngIf="estEnModeConnexion" mat-fab color="primary" (click)="valider()">
+      <mat-icon *ngIf="!statut.chargementEnCours">login</mat-icon>
+      <i class="fas fa-spinner fa-spin" *ngIf="statut.chargementEnCours"></i>
     </button>
-    <button class="z-depth-5 float-right mr-3 animated fadeInDown"
-      *ngIf="!estEnModeConnexion && doitAfficherLeBoutonValider && !statut.chargementEnCours" mat-fab color="primary"
+    <button class="float-right mr-3" *ngIf="!estEnModeConnexion && doitAfficherLeBoutonValider" mat-fab color="primary"
       (click)="valider()">
-
-      <mat-icon>create</mat-icon>
+      <i class="fas fa-spinner fa-spin" *ngIf="statut.chargementEnCours"></i>
+      <mat-icon *ngIf="!statut.chargementEnCours">create</mat-icon>
     </button>
   </mat-card-actions>
   <mat-card-footer>

@@ -1,0 +1,64 @@
+@import "./bootstrap.css";
+@import "../scss/mdb-pro.scss";
+
+/* -------------------------------------------------------------------------- */
+/*                            Surcharge des balise                            */
+/* -------------------------------------------------------------------------- */
+
+html,
+body {
+  height: 100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+  @extend .animated;
+  @extend .fadeInRight;
+}
+
+button {
+  @extend .animated;
+  @extend .z-depth-5;
+  @extend .fadeIn;
+}
+
+button:hover {
+  @extend .pulse;
+}
+
+/* ------------------------------- Responsive ------------------------------- */
+
+
+@media (max-width: 740px) {
+  html,
+  body {
+    height: 100vh;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 850px) {
+  html,
+  body {
+    height: 100vh;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                        Surcharge des style material                        */
+/* -------------------------------------------------------------------------- */
+
+mat-card {
+  @extend .animated;
+  @extend .fadeIn;
+  @extend .z-depth-5;
+  opacity: 0.8 !important;
+}
+
+mat-form-field:hover {
+  @extend .animated;
+  @extend .pulse;
+}
+
+mat-error {
+  @extend .animated;
+  @extend .shake;
+}
