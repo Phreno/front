@@ -10,6 +10,14 @@ import { AuthService } from './auth.service';
 import { SharedResource } from 'src/app/shared/shared.resource';
 import { IAuthValide } from 'src/app/shared/interface/auth-valide.interface';
 
+
+/**
+ * Permet la connexion / authentification du l'utilisateur
+ *
+ * @export
+ * @class AuthComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -56,12 +64,26 @@ export class AuthComponent implements OnInit {
     private _authService: AuthService,
     private _snackBar: MatSnackBar,
     private _router: Router
-  ) {}
+  ) { }
 
+  /**
+   * Retourne l'utilisateur du formulaire
+   *
+   * @readonly
+   * @memberof AuthComponent
+   */
   get utilisateurValide() {
     return this.doitAfficherLeBoutonValider && (this.utilisateur as AuthModel);
   }
 
+
+  /**
+   * En fonction de l'état des validateurs du formulaire,
+   * statue sur l'affichage du bouton valider
+   *
+   * @readonly
+   * @memberof AuthComponent
+   */
   get doitAfficherLeBoutonValider() {
     const validateurs = Object.keys(this.validateurDeFormulaire);
     let estValide =
@@ -71,12 +93,22 @@ export class AuthComponent implements OnInit {
     return estValide;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
+  /**
+   * Permet d'afficher / masquer le mot de passe
+   *
+   * @memberof AuthComponent
+   */
   permuteAffichageP455w0rd() {
     this.masqueP455w0rd = !this.masqueP455w0rd;
   }
 
+  /**
+   * Passe du mode connexion au mode authentification
+   *
+   * @memberof AuthComponent
+   */
   permuteMode() {
     this.estEnModeConnexion = !this.estEnModeConnexion;
 
@@ -97,33 +129,75 @@ export class AuthComponent implements OnInit {
     this.validateurDeFormulaire.courriel.markAsUntouched();
     this.validateurDeFormulaire.p455w0rd.markAsUntouched();
   }
-
+  /**
+   * Si le formulaire est valide, appelle le service,
+   * sinon met à jour le statut du formulaire
+   *
+   * @memberof AuthComponent
+   */
   valider() {
     if (this.utilisateurValide) {
-      this.statut.chargementEnCours = true;
-      this.afficheSnackBar('Connexion en cours ...');
-      const authObservable: Observable<IAuthValide> = this.estEnModeConnexion
-        ? this._authService.connecteUtilisateur(this.utilisateurValide)
-        : this._authService.enregistreUtilisateur(this.utilisateurValide);
-      authObservable.subscribe(
-        (utilisateur) => {
-          console.log(utilisateur);
-          this.statut.chargementEnCours = false;
-          this.afficheSnackBar('Connecté');
-          this._router.navigate(['profile']);
-        },
-        (error) => {
-          console.error(error);
-          this.statut.chargementEnCours = false;
-          this.afficheSnackBar(error.message);
-        }
-      );
+      this.appelleLeService();
     } else {
-      this.validateurDeFormulaire.courriel.markAllAsTouched();
-      this.validateurDeFormulaire.p455w0rd.markAllAsTouched();
+      this.afficheLesMessagesDuFormulaire();
     }
   }
 
+  /**
+   * Affiche les éventuelles erreurs du formulaire
+   *
+   * @private
+   * @memberof AuthComponent
+   */
+  private afficheLesMessagesDuFormulaire() {
+    this.validateurDeFormulaire.courriel.markAllAsTouched();
+    this.validateurDeFormulaire.p455w0rd.markAllAsTouched();
+  }
+
+  /**
+   * Appel le service pour authentifier / enregistrer l'utilisateur
+   *
+   * @private
+   * @memberof AuthComponent
+   */
+  private appelleLeService() {
+    this.statut.chargementEnCours = true;
+    this.afficheSnackBar('Connexion en cours ...');
+    const authObservable: Observable<IAuthValide> = this.choisiLaMethode();
+    authObservable.subscribe(
+      (utilisateur) => {
+        console.log(utilisateur);
+        this.statut.chargementEnCours = false;
+        this.afficheSnackBar('Connecté');
+        this._router.navigate(['profile']);
+      },
+      (error) => {
+        console.error(error);
+        this.statut.chargementEnCours = false;
+        this.afficheSnackBar(error.message);
+      }
+    );
+  }
+
+  /**
+   * Suivant le formulaire, choisi entre l'authentification et l'enregistrement
+   *
+   * @private
+   * @return {*}  {Observable<IAuthValide>}
+   * @memberof AuthComponent
+   */
+  private choisiLaMethode(): Observable<IAuthValide> {
+    return this.estEnModeConnexion
+      ? this._authService.connecteUtilisateur(this.utilisateurValide)
+      : this._authService.enregistreUtilisateur(this.utilisateurValide);
+  }
+
+  /**
+   * Affiche un message à l'utilisateur
+   *
+   * @param {string} message
+   * @memberof AuthComponent
+   */
   afficheSnackBar(message: string) {
     this._snackBar.open(message, 'Fermer', {
       duration: 2000,
